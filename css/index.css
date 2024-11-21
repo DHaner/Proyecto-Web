@@ -1,83 +1,43 @@
-    body {
-       /* Loading Screen */
-        position: relative;
-        width: 1920px;
-        height: 1080px;
-        
-        background: linear-gradient(180deg, #B3261E 48%, #000000 100%);
-        border-radius: 50px;
-    }
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(180deg, #B3261E 5%, #000000 100%);
+    font-family: "Times New Roman", serif;
+    color: white;
+    position: relative;
+  }
 
-    h1 {
-        /* Librook */
-        position: absolute;
-        width: 247px;
-        height: 86px;
-        left: calc(50% - 247px/2 - 0.5px);
-        top: calc(50% - 86px/2);
+  .title {
+    /* Librook */
+    font-family: 'Kalnia';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 86px;
+    display: flex;
+    align-items: center;
+    text-align: center;
 
-        font-family: 'Kalnia';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 64px;
-        line-height: 86px;
-        /* identical to box height */
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: #FFFFFF;
-    }
+    color: #FFFFFF;
 
-    p {
-    /* Intercambia libros con propósito */
-        position: absolute;
-        width: 252px;
-        height: 52px;
-        left: calc(50% - 252px/2);
-        top: 931px;
+    margin: 0;
+    text-align: center;
+  }
 
-        font-family: 'Roboto';
-        font-style: normal;
-        font-weight: 800;
-        font-size: 24px;
-        line-height: 110%;
-        /* or 26px */
-        text-align: center;
+  .subtitle {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-size: 24px;
+    color: #E8E8E8;
+    left: calc(48% - 252px/2);
 
-        color: #E8E8E8;
+    position: absolute;
+    bottom: 20px;
+  }
 
 
-    }
-
-/* Diseño para tablet */
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    main {
-        flex-direction: column; /* Apila la sección y el aside */
-    }
-
-    aside {
-        margin-top: 0;
-    }
-}
-
-/* Diseño para móviles */
-@media (max-width: 480px) {
-    header {
-        font-size: 1.2em;
-        padding: 0.5em;
-    }
-
-    nav ul {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    section, aside {
-        padding: 0.5em;
-    }
-}

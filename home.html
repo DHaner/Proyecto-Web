@@ -1,14 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Librook</title>
+    <title>Biblioteca Virtual</title>
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-    <p>Actualizando el archivo a la version 2</p>
-    <p>SOy la version 3</p>
-</body>
+    <header>
+        <h1>¡Hola, <?php . $_SESSION['usuario']?>! 👋</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Solicitudes</a></li>
+                <li><a href="#">Guardados</a></li>
+                <li><a href="#">Biblioteca</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar libros">
+    </div>
+
+    <div class="categories">
+        <button class="active">Populares</button>
+        <button>Best Seller</button>
+        <button>Clásicos</button>
+    </div>
+
+    <div class="card-container">
+        <div class="card-image"></div>
+        <div class="card-overlay"></div>
+        <div class="card-favorite">
+            <img src="img/me gusta.png" alt="">
+        </div>
+        <div class="card-content">
+            <h3 class="card-title">1984, 5 disponibles</h3>
+            <div class="card-author">Orwell, George</div>
+            <div class="card-rating">
+                <span>⭐ 4.8</span>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
