@@ -12,10 +12,10 @@
             <h1>Iniciar Sesión</h1>
             <p>Si aún no tienes una cuenta<br> Puedes <a href="registro.html">Registrarte aquí</a></p>
             
-            <form>
-                <input type="text" placeholder="Correo electrónico o usuario" required>
+            <form action="loginp.php" method="POST">
+                <input type="text" placeholder="Correo electrónico o usuario" name="usuario"required>
                 <div class="password-field">
-                    <input type="password" placeholder="Contraseña" required>
+                    <input type="password" placeholder="Contraseña" name="password" required >
                 </div>
                 <a href="#" class="forgot-password">Olvidé mi contraseña</a>
                 <button type="submit">Iniciar Sesión</button>

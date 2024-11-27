@@ -176,3 +176,39 @@ nav ul li a {
     color: #FFFFFF;
     font-size: 20px;
 }
+
+
+.carousel-container {
+    position: relative;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    overflow: hidden; /* Esconde el contenido que se desborda horizontalmente */
+    box-sizing: border-box;
+}
+
+.carousel {
+    display: flex; /* Alinea las tarjetas horizontalmente */
+    flex-wrap: nowrap; /* Evita que las tarjetas se apilen verticalmente */
+    gap: 15px; /* Espacio entre tarjetas */
+    transition: transform 0.3s ease; /* Animación suave en el desplazamiento */
+    width: max-content; /* Ajusta el ancho total del carrusel al contenido */
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.arrow.left {
+    left: 10px;
+}
+
+.arrow.right {
+    right: 10px;
+}
