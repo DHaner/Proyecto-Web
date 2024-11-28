@@ -23,10 +23,10 @@
         </h1>
         <nav>
             <ul>
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Solicitudes</a></li>
-                <li><a href="#">Guardados</a></li>
-                <li><a href="#">Biblioteca</a></li>
+                <li><a href="home.php">Inicio</a></li>
+                <li><a href="solicitudes.php">Solicitudes</a></li>
+                <li><a href="guardados.php">Guardados</a></li>
+                <li><a href="biblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
     </header>
@@ -44,25 +44,27 @@
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>
         <div class="carousel">
-            <?php
-            while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-                <!-- Tarjetas -->
-                <div class="card-container">
-                    <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
-                    <div class="card-overlay"></div>
-                    <div class="card-favorite">
-                        <img src="img/me gusta.png" alt="">
-                    </div>
-                    <div class="card-content">
-                        <h3 class="card-title"><?php echo $row["nombre"] . " - Disponibles: " . $row["disponibles"]; ?></h3>
-                        <div class="card-author"><?php echo $row["autor"]; ?></div>
-                        <div class="card-rating">
-                            <span>⭐ <?php echo $row["pt"]; ?></span>
-                        </div>
+        <?php
+        while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
+        ?>
+        <!-- Tarjetas -->
+        <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
+            <div class="card-container">
+                <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
+                <div class="card-overlay"></div>
+                <div class="card-favorite">
+                    <img src="img/me gusta.png" alt="">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title"><?php echo $row["nombre"] . " - Disponibles: " . $row["disponibles"]; ?></h3>
+                    <div class="card-author"><?php echo $row["autor"]; ?></div>
+                    <div class="card-rating">
+                        <span>⭐ <?php echo $row["pt"]; ?></span>
                     </div>
                 </div>
-            <?php } ?>
+            </div>
+            </a>
+        <?php } ?>
         </div>
         <button class="arrow right" onclick="moveCarousel(1)">&#10095;</button>
     </div>
