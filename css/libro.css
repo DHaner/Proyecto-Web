@@ -95,12 +95,14 @@ main {
 .book-details .availability,
 .book-details .sinopsis {
     margin: 8px 0;
-    color: #555;
+    color: #323232;
 }
 
 .book-details .sinopsis {
-    font-size: 14px; /* Reducir el tamaño de la sinopsis */
+    font-size: 16px; /* Reducir el tamaño de la sinopsis */
     line-height: 1.5;
+    text-align: justify;
+    align-items: justify;
 }
 
 /* Sección de comentarios */
@@ -405,7 +407,7 @@ footer .request-exchange:hover {
 }
 
 button.request-exchange {
-    background-color: #28a745;
+    background-color: #0f100f;
     color: #fff;
     border: none;
     padding: 12px 20px;
@@ -417,7 +419,7 @@ button.request-exchange {
 }
 
 button.request-exchange:hover {
-    background-color: #218838;
+    background-color: #9da19e;
 }
 
 
