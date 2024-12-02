@@ -94,6 +94,7 @@ main {
 .book-details .author,
 .book-details .availability,
 .book-details .sinopsis {
+<<<<<<< HEAD
   margin: 8px 0;
   color: #555;
 }
@@ -101,6 +102,17 @@ main {
 .book-details .sinopsis {
   font-size: 14px; /* Reducir el tamaño de la sinopsis */
   line-height: 1.5;
+=======
+    margin: 8px 0;
+    color: #323232;
+}
+
+.book-details .sinopsis {
+    font-size: 16px; /* Reducir el tamaño de la sinopsis */
+    line-height: 1.5;
+    text-align: justify;
+    align-items: justify;
+>>>>>>> a15cd363cc734686ffb74a19a66a4eccb886214b
 }
 
 /* Sección de comentarios */
@@ -405,6 +417,7 @@ footer .request-exchange:hover {
 }
 
 button.request-exchange {
+<<<<<<< HEAD
   background-color: #28a745;
   color: #fff;
   border: none;
@@ -418,6 +431,33 @@ button.request-exchange {
 
 button.request-exchange:hover {
   background-color: #218838;
+=======
+    background-color: #0f100f;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 30px;
+    width: 100%;
+}
+
+button.request-exchange:hover {
+    background-color: #9da19e;
+}
+
+
+/* Diseño del formulario */
+form {
+    background-color: white;
+    padding: 8px; /* Aún más pequeño */
+    margin: 10px auto; 
+    width: 100%;
+    max-width: 320px; /* Más estrecho */
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+>>>>>>> a15cd363cc734686ffb74a19a66a4eccb886214b
 }
 
 /* Títulos del formulario */
