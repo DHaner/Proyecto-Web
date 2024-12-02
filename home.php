@@ -1,24 +1,26 @@
 <?php
-    session_start();
-    include("conexion.php");
+session_start();
+include("conexion.php");
 
-    // Asegúrate de que la consulta es correcta
-    $Query = "SELECT * FROM libro";
-    $Result = $conn->query($Query);
+// Asegúrate de que la consulta es correcta
+$Query = "SELECT * FROM libro";
+$Result = $conn->query($Query);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Virtual</title>
     <link rel="stylesheet" href="css/home.css">
 </head>
+
 <body>
     <header>
         <h1>
-            ¡Hola, 
+            ¡Hola,
             <?php printf($_SESSION["username"]); ?> 👋
         </h1>
         <nav>
@@ -33,6 +35,25 @@
 
     <div class="search-bar">
         <input type="text" placeholder="Buscar libros">
+
+        <!--nuevo-->
+        <button onclick="searchBooks()">Buscar</button>
+        <script>
+            function searchBooks() {
+                const searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
+                const cards = document.querySelectorAll('.card-container');
+
+                cards.forEach(card => {
+                    const title = card.querySelector('.card-title').textContent.toLowerCase();
+                    if (title.includes(searchTerm)) {
+                        card.parentElement.style.display = 'block';
+                    } else {
+                        card.parentElement.style.display = 'none';
+                    }
+                });
+            }
+        </script>
+        <!--fin nuevo-->
     </div>
 
     <div class="categories">
@@ -44,27 +65,27 @@
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>
         <div class="carousel">
-        <?php
-        while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
-        ?>
-        <!-- Tarjetas -->
-        <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
-            <div class="card-container">
-                <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
-                <div class="card-overlay"></div>
-                <div class="card-favorite">
-                    <img src="img/me gusta.png" alt="">
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title"><?php echo $row["nombre"] . " - Disponibles: " . $row["disponibles"]; ?></h3>
-                    <div class="card-author"><?php echo $row["autor"]; ?></div>
-                    <div class="card-rating">
-                        <span>⭐ <?php echo $row["pt"]; ?></span>
+            <?php
+            while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
+            ?>
+                <!-- Tarjetas -->
+                <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
+                    <div class="card-container">
+                        <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
+                        <div class="card-overlay"></div>
+                        <div class="card-favorite">
+                            <img src="img/me gusta.png" alt="">
+                        </div>
+                        <div class="card-content">
+                            <h3 class="card-title"><?php echo $row["nombre"] . " - Disponibles: " . $row["disponibles"]; ?></h3>
+                            <div class="card-author"><?php echo $row["autor"]; ?></div>
+                            <div class="card-rating">
+                                <span>⭐ <?php echo $row["pt"]; ?></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            </a>
-        <?php } ?>
+                </a>
+            <?php } ?>
         </div>
         <button class="arrow right" onclick="moveCarousel(1)">&#10095;</button>
     </div>
@@ -91,4 +112,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -1,585 +1,648 @@
 /* Estilo base */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f5f5f5;
+  font-family: "Arial", sans-serif;
+  background-color: #f5f5f5;
 }
 
 /* Encabezado */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 header .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 header .user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 header nav ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
+  display: flex;
+  list-style: none;
+  padding: 0;
 }
 
 header nav ul li {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 header nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
 }
 
 .search-bar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .search-bar input {
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 /* Contenido principal */
 main {
-    display: flex;
-    gap: 10px;
-    padding: 10px;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 
 /* Detalles del libro */
 
 /* Detalles del libro */
 .book-details {
-    flex: 1;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 400px; /* Limitar el ancho */
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px; /* Limitar el ancho */
 }
 
 .book-details img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .book-details h3 {
-    font-size: 20px; /* Reducción del tamaño de fuente */
-    margin-bottom: 8px;
+  font-size: 20px; /* Reducción del tamaño de fuente */
+  margin-bottom: 8px;
 }
 
 .book-details .author,
 .book-details .availability,
 .book-details .sinopsis {
-    margin: 8px 0;
-    color: #555;
+  margin: 8px 0;
+  color: #555;
 }
 
 .book-details .sinopsis {
-    font-size: 14px; /* Reducir el tamaño de la sinopsis */
-    line-height: 1.5;
+  font-size: 14px; /* Reducir el tamaño de la sinopsis */
+  line-height: 1.5;
 }
 
 /* Sección de comentarios */
 .comments-section {
-    flex: 2;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 2;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .comments-section h3 {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #333;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .comment {
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 .comment:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .comment strong {
-    font-size: 16px;
-    color: #333;
+  font-size: 16px;
+  color: #333;
 }
 
 .comment span {
-    font-size: 12px;
-    color: #999;
+  font-size: 12px;
+  color: #999;
 }
 
 .comment p {
-    margin: 10px 0;
-    color: #555;
+  margin: 10px 0;
+  color: #555;
 }
 
 .rating {
-    margin-top: 10px;
-    color: #f5c518;
+  margin-top: 10px;
+  color: #f5c518;
 }
 
 /* Botón de solicitud de intercambio */
 footer {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
 }
 
 footer .request-exchange {
-    background-color: #ff6347;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+  background-color: #ff6347;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
 }
 
 footer .request-exchange:hover {
-    background-color: #e5533d;
+  background-color: #e5533d;
 }
 
 .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
 .card-container {
-    position: relative;
-    width: 270px;
-    height: 414px;
-    border-radius: 30px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  width: 270px;
+  height: 414px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card-container:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-image {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
 }
 
 .card-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.221);
-    filter: blur(20px);
-    z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.221);
+  filter: blur(20px);
+  z-index: 1;
 }
 
 .card-content {
-    position: absolute;
-    bottom: 0;
-    left: 7.41%;
-    right: 9.63%;
-    top: 73.67%;
-    background: rgba(29, 29, 29, 0.8);
-    box-shadow: 0px 5px 9px rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    color: white;
-    z-index: 2;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  position: absolute;
+  bottom: 0;
+  left: 7.41%;
+  right: 9.63%;
+  top: 73.67%;
+  background: rgba(29, 29, 29, 0.8);
+  box-shadow: 0px 5px 9px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  color: white;
+  z-index: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .card-title {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
 }
 
 .card-author {
-    font-size: 14px;
-    font-weight: 400;
-    color: #CAC8C8;
+  font-size: 14px;
+  font-weight: 400;
+  color: #cac8c8;
 }
 
 .card-rating {
-    font-size: 14px;
-    font-weight: 400;
-    color: #CAC8C8;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  color: #cac8c8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-rating span {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .card-favorite {
-    position: absolute;
-    top: 6.52%;
-    right: 10.37%;
-    background: rgba(29, 29, 29, 0.4);
-    backdrop-filter: blur(20px);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-    cursor: pointer;
+  position: absolute;
+  top: 6.52%;
+  right: 10.37%;
+  background: rgba(29, 29, 29, 0.4);
+  backdrop-filter: blur(20px);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  cursor: pointer;
 }
 
 .card-favorite:hover {
-    background: rgba(255, 82, 82, 0.8);
+  background: rgba(255, 82, 82, 0.8);
 }
 
 .card-favorite i {
-    color: #FFFFFF;
-    font-size: 20px;
+  color: #ffffff;
+  font-size: 20px;
 }
 
 /* Estilos generales del formulario */
 .new-comment-form {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-    max-width: 600px;
-    margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.new-comment-form input, 
-.new-comment-form textarea, 
+.new-comment-form input,
+.new-comment-form textarea,
 .new-comment-form select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 10px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    background-color: #fff;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-.new-comment-form input:focus, 
-.new-comment-form textarea:focus, 
+.new-comment-form input:focus,
+.new-comment-form textarea:focus,
 .new-comment-form select:focus {
-    border-color: #5b89f3;
-    outline: none;
+  border-color: #5b89f3;
+  outline: none;
 }
 
 .new-comment-form input {
-    font-weight: bold;
-    font-size: 18px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .new-comment-form textarea {
-    font-size: 14px;
-    height: 150px;
-    resize: vertical;
+  font-size: 14px;
+  height: 150px;
+  resize: vertical;
 }
 
 .new-comment-form button {
-    background-color: #5b89f3;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s ease;
+  background-color: #5b89f3;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
 }
 
 .new-comment-form button:hover {
-    background-color: #4a78d1;
+  background-color: #4a78d1;
 }
 
 .new-comment-form .rating-input {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .new-comment-form label {
-    font-size: 14px;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .new-comment-form select {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .new-comment-form input::placeholder,
 .new-comment-form textarea::placeholder {
-    color: #aaa;
-    font-style: italic;
+  color: #aaa;
+  font-style: italic;
 }
 
 /* Estilos para la sección de comentarios */
 .comments-section h3 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: bold;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .comment {
-    background-color: #e2e0e0;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
-    border: #333;
+  background-color: #e2e0e0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+  border: #333;
 }
 
 .comment strong {
-    font-size: 16px;
-    color: #333;
+  font-size: 16px;
+  color: #333;
 }
 
 .comment h4 {
-    font-size: 18px;
-    color: #5b89f3;
-    margin-top: 5px;
+  font-size: 18px;
+  color: #5b89f3;
+  margin-top: 5px;
 }
 
 .comment p {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
 }
 
 .comment .rating {
-    margin-top: 10px;
-    font-size: 18px;
-    color: #ffbf00;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ffbf00;
 }
 
 .comment .rating span {
-    font-size: 20px;
-    margin-right: 5px;
+  font-size: 20px;
+  margin-right: 5px;
 }
 
 button.request-exchange {
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 30px;
-    width: 100%;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 30px;
+  width: 100%;
 }
 
 button.request-exchange:hover {
-    background-color: #218838;
-}
-
-
-/* Diseño del formulario */
-form {
-    background-color: white;
-    padding: 8px; /* Aún más pequeño */
-    margin: 10px auto; 
-    width: 100%;
-    max-width: 320px; /* Más estrecho */
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  background-color: #218838;
 }
 
 /* Títulos del formulario */
 form h3 {
-    color: #333;
-    font-size: 14px; /* Reducido */
-    margin-bottom: 6px;
-    font-weight: 600;
-    text-align: center;
+  color: #333;
+  font-size: 14px; /* Reducido */
+  margin-bottom: 6px;
+  font-weight: 600;
+  text-align: center;
 }
 
 /* Etiquetas */
 form label {
-    font-size: 10px; /* Mucho más pequeño */
-    color: #555;
-    margin-bottom: 3px; /* Reducido */
-    display: block;
+  font-size: 10px; /* Mucho más pequeño */
+  color: #555;
+  margin-bottom: 3px; /* Reducido */
+  display: block;
 }
 
 /* Campos de texto */
 form input[type="text"],
 form textarea,
 form select {
-    width: 100%;
-    padding: 4px; /* Reducido */
-    margin-bottom: 6px; /* Menor margen */
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 12px; /* Más pequeño */
-    background-color: #f9f9f9;
-    transition: all 0.3s ease;
+  width: 100%;
+  padding: 4px; /* Reducido */
+  margin-bottom: 6px; /* Menor margen */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px; /* Más pequeño */
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
 }
 
 form input[type="text"]:focus,
 form textarea:focus,
 form select:focus {
-    border-color: #888;
-    background-color: #fff;
-    outline: none;
+  border-color: #888;
+  background-color: #fff;
+  outline: none;
 }
 
 /* Estilo para el área de comentario */
 form textarea {
-    resize: vertical;
-    height: 60px; /* Aún más pequeño */
+  resize: vertical;
+  height: 60px; /* Aún más pequeño */
 }
 
 /* Estilo para el botón de envío como una flecha */
 form button {
-    background-color: #333;
-    color: white;
-    padding: 8px 12px; /* Ajustado para que el botón sea pequeño */
-    border: none;
-    border-radius: 50%;
-    font-size: 18px; /* Tamaño de la flecha */
-    cursor: pointer;
-    width: 40px; /* Botón circular más pequeño */
-    height: 40px; /* Forma circular */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s ease;
-    margin: 0 auto; /* Centrado */
+  background-color: #333;
+  color: white;
+  padding: 8px 12px; /* Ajustado para que el botón sea pequeño */
+  border: none;
+  border-radius: 50%;
+  font-size: 18px; /* Tamaño de la flecha */
+  cursor: pointer;
+  width: 40px; /* Botón circular más pequeño */
+  height: 40px; /* Forma circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  margin: 0 auto; /* Centrado */
 }
 
 form button:hover {
-    background-color: #555;
+  background-color: #555;
 }
 
 /* Botón de flecha */
 form button::before {
-    content: "→"; /* Flecha de dirección */
-    font-size: 18px; /* Tamaño de la flecha */
+  content: "→"; /* Flecha de dirección */
+  font-size: 18px; /* Tamaño de la flecha */
 }
 
 /* Mensaje de éxito */
 form .success-message {
-    background-color: #e0ffe0;
-    color: #333;
-    padding: 6px;
-    margin-top: 8px;
-    border: 1px solid #b2ffb2;
-    border-radius: 4px;
-    text-align: center;
+  background-color: #e0ffe0;
+  color: #333;
+  padding: 6px;
+  margin-top: 8px;
+  border: 1px solid #b2ffb2;
+  border-radius: 4px;
+  text-align: center;
 }
 
 /* Carrusel de comentarios vertical */
 .carousel-container {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 450px; /* Muestra solo tres comentarios a la vez */
-    position: relative;
-    margin: 20px auto;
-    max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 450px; /* Muestra solo tres comentarios a la vez */
+  position: relative;
+  margin: 20px auto;
+  max-width: 900px;
 }
 
 /* Modificar el contenedor de los comentarios */
 .carousel-slide {
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
 }
 
 /* Estilos de los bloques de comentarios */
 .carousel-item {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Estilos de los comentarios */
 .comment {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
 }
 
 /* Flechas de desplazamiento */
 .carousel-button {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 10;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Flecha hacia arriba */
 .prev {
-    top: 10px;
-    transform: translateX(-50%) rotate(90deg); /* Flecha hacia arriba */
+  top: 10px;
+  transform: translateX(-50%) rotate(90deg); /* Flecha hacia arriba */
 }
 
 /* Flecha hacia abajo */
 .next {
-    bottom: 10px;
-    transform: translateX(-50%) rotate(90deg); /* Flecha hacia abajo */
+  bottom: 10px;
+  transform: translateX(-50%) rotate(90deg); /* Flecha hacia abajo */
 }
 
+.formulario {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.formulario input[type="text"],
+.formulario select,
+.formulario textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formulario button:hover {
+  background-color: #45a049;
+}
+
+.formulario form {
+  width: 100%;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 5px;
+}
+
+.rating input[type="radio"] {
+  display: none;
+}
+
+.rating label {
+  font-size: 5em;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.rating input[type="radio"]:checked ~ label {
+  color: #f5b301;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+  color: #f5b301;
+}

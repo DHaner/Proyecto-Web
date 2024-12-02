@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Preparar la consulta SQL
     $queryInsert = $conn->prepare("INSERT INTO comentarios (calificacion, usuario, titulo, comentario, libro, fecha) 
                                     VALUES (:calificacion, :usuario, :titulo, :comentario, :libro, :fecha)");
-    
+
     // Vincula los parámetros
     $queryInsert->bindParam(':calificacion', $calificacion, PDO::PARAM_INT);
     $queryInsert->bindParam(':usuario', $usuario, PDO::PARAM_STR);
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $queryInsert->bindParam(':comentario', $comentario, PDO::PARAM_STR);
     $queryInsert->bindParam(':libro', $libro, PDO::PARAM_STR);
     $queryInsert->bindParam(':fecha', $fecha, PDO::PARAM_STR);
-    
+
     // Ejecuta la consulta
     if ($queryInsert->execute()) {
         // Si el comentario se ha enviado correctamente
@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Si hubo un error al agregar el comentario
         $comentario_enviado = false;
     }
-    
 }
 
 // Consulta para obtener los detalles del libro
@@ -63,12 +62,14 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles del Libro</title>
     <link rel="stylesheet" href="css/libro.css">
 </head>
+
 <body>
     <header>
         <div class="user-info">
@@ -105,22 +106,49 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
             <p class="sinopsis"><strong>Sinopsis:</strong> <?php echo htmlspecialchars($libro['sinopsis'] ?? 'Sinopsis no disponible'); ?></p>
         </div>
         <div class="comments-section">
-                <!-- Formulario de comentarios -->
-        <h3>Deja tu comentario</h3>
+
+            <!-- Formulario de comentarios -->
+            <h3>Agrega tu reseña</h3>
             <form method="POST" action="">
-                <label for="titulo">Título de tu comentario:</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Escribe un título para tu comentario" required>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="calificacion" value="5" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 5) ? 'checked' : ''; ?> />
+                    <label for="star5" title="5 estrellas">⭐</label>
+                    <input type="radio" id="star4" name="calificacion" value="4" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 4) ? 'checked' : ''; ?> />
+                    <label for="star4" title="4 estrellas">⭐</label>
+                    <input type="radio" id="star3" name="calificacion" value="3" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 3) ? 'checked' : ''; ?> />
+                    <label for="star3" title="3 estrellas">⭐</label>
+                    <input type="radio" id="star2" name="calificacion" value="2" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 2) ? 'checked' : ''; ?> />
+                    <label for="star2" title="2 estrellas">⭐</label>
+                    <input type="radio" id="star1" name="calificacion" value="1" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 1) ? 'checked' : ''; ?> />
+                    <label for="star1" title="1 estrella">⭐</label>
+                </div>
+                <style>
+                    .star-rating {
+                        display: flex;
+                        flex-direction: row-reverse;
+                        justify-content: center;
+                    }
 
-                <label for="calificacion">Calificación:</label>
-                <select id="calificacion" name="calificacion" required>
-                    <option value="1">1 Estrella</option>
-                    <option value="2">2 Estrellas</option>
-                    <option value="3">3 Estrellas</option>
-                    <option value="4">4 Estrellas</option>
-                    <option value="5">5 Estrellas</option>
-                </select>
+                    .star-rating input[type="radio"] {
+                        display: none;
+                    }
 
-                <label for="comentario">Comentario:</label>
+                    .star-rating label {
+                        font-size: 2em;
+                        color: #ddd;
+                        cursor: pointer;
+                        transition: color 0.2s;
+                    }
+
+                    .star-rating input[type="radio"]:checked~label {
+                        color: #f5b301;
+                    }
+
+                    .star-rating label:hover,
+                    .star-rating label:hover~label {
+                        color: #f5b301;
+                    }
+                </style>
                 <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario aquí" required><?php echo isset($_POST['comentario']) ? htmlspecialchars($_POST['comentario']) : ''; ?></textarea>
 
                 <button type="submit"></button>
@@ -129,65 +157,65 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
 
             <!-- Carrusel de comentarios -->
             <div class="carousel-container">
-    <button class="carousel-button prev">&#10094;</button>
-    <div class="carousel-slide">
-        <?php
-        if ($comentarios && count($comentarios) > 0) {
-            $counter = 0;
-            $chunks = array_chunk($comentarios, 3); // Agrupa los comentarios en bloques de 3
-            foreach ($chunks as $chunk) { 
-                echo '<div class="carousel-item">';
-                foreach ($chunk as $row) { 
-        ?>
-                    <div class="comment">
-                        <div class="rating">
-                            <?php for ($i = 0; $i < $row['calificacion']; $i++) echo '⭐'; ?>
-                        </div>
-                        <strong><?php echo htmlspecialchars($row['titulo']); ?></strong>
-                        <p><?php echo htmlspecialchars($row['comentario']); ?></p>
-                        <p><?php echo htmlspecialchars($row['usuario']); ?><span><?php echo htmlspecialchars($row['fecha']); ?></span></p>
-                    </div>
-        <?php
+                <button class="carousel-button prev">&#10094;</button>
+                <div class="carousel-slide">
+                    <?php
+                    if ($comentarios && count($comentarios) > 0) {
+                        $counter = 0;
+                        $chunks = array_chunk($comentarios, 3); // Agrupa los comentarios en bloques de 3
+                        foreach ($chunks as $chunk) {
+                            echo '<div class="carousel-item">';
+                            foreach ($chunk as $row) {
+                    ?>
+                                <div class="comment">
+                                    <div class="rating">
+                                        <?php for ($i = 0; $i < $row['calificacion']; $i++) echo '⭐'; ?>
+                                    </div>
+                                    <strong><?php echo htmlspecialchars($row['titulo']); ?></strong>
+                                    <p><?php echo htmlspecialchars($row['comentario']); ?></p>
+                                    <p><?php echo htmlspecialchars($row['usuario']); ?><span><?php echo htmlspecialchars($row['fecha']); ?></span></p>
+                                </div>
+                    <?php
+                            }
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<p>No hay comentarios disponibles para este libro.</p>';
+                    }
+                    ?>
+                </div>
+                <button class="carousel-button next">&#10095;</button>
+            </div>
+
+            <!-- Script JavaScript -->
+            <script>
+                let currentIndex = 0;
+                const slides = document.querySelectorAll('.carousel-item');
+                const totalSlides = slides.length;
+                const slideContainer = document.querySelector('.carousel-slide');
+
+                // Función para mover el carrusel
+                function updateCarousel() {
+                    const itemHeight = slides[0].offsetHeight; // Altura de un bloque de 3 comentarios
+                    slideContainer.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
                 }
-                echo '</div>';
-            }
-        } else {
-            echo '<p>No hay comentarios disponibles para este libro.</p>';
-        }
-        ?>
-    </div>
-    <button class="carousel-button next">&#10095;</button>
-</div>
 
-<!-- Script JavaScript -->
-<script>
-    let currentIndex = 0;
-    const slides = document.querySelectorAll('.carousel-item');
-    const totalSlides = slides.length;
-    const slideContainer = document.querySelector('.carousel-slide');
+                // Evento para el botón "Next"
+                document.querySelector('.next').addEventListener('click', () => {
+                    if (currentIndex < totalSlides - 1) {
+                        currentIndex++;
+                        updateCarousel();
+                    }
+                });
 
-    // Función para mover el carrusel
-    function updateCarousel() {
-        const itemHeight = slides[0].offsetHeight; // Altura de un bloque de 3 comentarios
-        slideContainer.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
-    }
-
-    // Evento para el botón "Next"
-    document.querySelector('.next').addEventListener('click', () => {
-        if (currentIndex < totalSlides - 1) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
-
-    // Evento para el botón "Prev"
-    document.querySelector('.prev').addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
-</script>
+                // Evento para el botón "Prev"
+                document.querySelector('.prev').addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        currentIndex--;
+                        updateCarousel();
+                    }
+                });
+            </script>
     </main>
 
     <footer>
@@ -198,14 +226,14 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
         let currentIndex = 0;
         const items = document.querySelectorAll('.carousel-item');
         const totalItems = items.length;
-        
+
         document.querySelector('.next').addEventListener('click', () => {
             if (currentIndex + 1 < totalItems) {
                 currentIndex++;
                 updateCarousel();
             }
         });
-        
+
         document.querySelector('.prev').addEventListener('click', () => {
             if (currentIndex - 1 >= 0) {
                 currentIndex--;
@@ -219,4 +247,5 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
         }
     </script>
 </body>
+
 </html>
