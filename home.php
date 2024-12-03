@@ -20,8 +20,7 @@ $Result = $conn->query($Query);
 <body>
     <header>
         <h1>
-            ¡Hola,
-            <?php printf($_SESSION["username"]); ?> 👋
+            ¡Hola, <?php printf($_SESSION["username"]); ?> 👋
         </h1>
         <nav>
             <ul>
@@ -31,21 +30,30 @@ $Result = $conn->query($Query);
                 <li><a href="biblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
+        <!-- Barra de búsqueda y botón de filtros -->
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Buscar libros">
+            <div class="dropdown">
+                <button class="dropdown-toggle" onclick="toggleDropdown()">
+                    <img src="img/filtro.png" alt="Filtros">
+                </button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <label>
+                        <input type="radio" name="filter-type" value="titulo" checked onclick="closeDropdown()"> Título
+                    </label>
+                    <label>
+                        <input type="radio" name="filter-type" value="autor" onclick="closeDropdown()"> Autor
+                    </label>
+                    <label>
+                        <input type="radio" name="filter-type" value="genero" onclick="closeDropdown()"> Género
+                    </label>
+                    <label>
+                        <input type="checkbox" id="filter-available" onclick="closeDropdown()"> Disponibles
+                    </label>
+                </div>
+            </div>
+        </div>
     </header>
-
-    <!-- Barra de búsqueda con filtros -->
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Buscar libros">
-        <select id="filter-type">
-            <option value="titulo">Título</option>
-            <option value="autor">Autor</option>
-            <option value="genero">Género</option>
-        </select>
-        <label>
-            <input type="checkbox" id="filter-available"> Disponibles
-        </label>
-        <button onclick="searchBooks()">Buscar</button>
-    </div>
 
     <div class="categories">
         <button class="active">Populares</button>
@@ -59,7 +67,6 @@ $Result = $conn->query($Query);
             <?php
             while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
             ?>
-                <!-- Tarjetas -->
                 <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
                     <div class="card-container" data-titulo="<?php echo strtolower($row['nombre']); ?>" 
                          data-autor="<?php echo strtolower($row['autor']); ?>" 
@@ -85,9 +92,25 @@ $Result = $conn->query($Query);
     </div>
 
     <script>
+        function toggleDropdown() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.toggle('active');
+        }
+
+        function closeDropdown() {
+            const menu = document.getElementById('dropdown-menu');
+            menu.classList.remove('active');
+        }
+
+        document.getElementById('search-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchBooks();
+            }
+        });
+
         function searchBooks() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filterType = document.getElementById('filter-type').value;
+            const filterType = document.querySelector('input[name="filter-type"]:checked').value;
             const filterAvailable = document.getElementById('filter-available').checked;
             const cards = document.querySelectorAll('.card-container');
 
@@ -99,36 +122,14 @@ $Result = $conn->query($Query);
 
                 let matchesSearch = false;
 
-                // Filtrar según el tipo seleccionado
                 if (filterType === "titulo" && title.includes(searchTerm)) matchesSearch = true;
                 if (filterType === "autor" && author.includes(searchTerm)) matchesSearch = true;
                 if (filterType === "genero" && genre.includes(searchTerm)) matchesSearch = true;
 
-                // Comprobar disponibilidad si está marcada la opción
                 if (filterAvailable && !available) matchesSearch = false;
 
-                // Mostrar u ocultar tarjeta
                 card.parentElement.style.display = matchesSearch ? 'block' : 'none';
             });
-        }
-
-        function moveCarousel(direction) {
-            const carousel = document.querySelector('.carousel');
-            const cardWidth = 220; // Ancho de cada tarjeta (220px)
-            const visibleCards = 4; // Número de tarjetas visibles (ajústalo según el diseño)
-            const maxScroll = carousel.children.length - visibleCards;
-
-            let scrollAmount = parseInt(carousel.dataset.scroll || 0);
-            scrollAmount += direction;
-
-            // Restringe el desplazamiento dentro del rango válido
-            if (scrollAmount < 0) scrollAmount = 0;
-            if (scrollAmount > maxScroll) scrollAmount = maxScroll;
-
-            // Aplica el desplazamiento
-            const offset = scrollAmount * cardWidth;
-            carousel.style.transform = `translateX(-${offset}px)`;
-            carousel.dataset.scroll = scrollAmount;
         }
     </script>
 </body>
