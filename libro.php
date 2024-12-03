@@ -58,6 +58,31 @@ $queryComentarios = $conn->prepare("SELECT * FROM comentarios WHERE libro = :nom
 $queryComentarios->bindParam(':nombre', $nombre, PDO::PARAM_STR);
 $queryComentarios->execute();
 $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
+
+    if ($accion === 'solicitar_intercambio') {
+        $usuario = $_SESSION['username']; // Usuario actual
+        $libro = $nombre; // Nombre del libro previamente recogido
+
+        // Preparar la consulta SQL
+        $querySolicitud = $conn->prepare("INSERT INTO solicitudes (usuario, libro) VALUES (:usuario, :libro)");
+
+        // Vincular parámetros
+        $querySolicitud->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+        $querySolicitud->bindParam(':libro', $libro, PDO::PARAM_STR);
+
+        // Ejecutar la consulta
+        if ($querySolicitud->execute()) {
+            echo "<script>alert('¡Solicitud de intercambio enviada con éxito!');window.location.href='solicitudes.php';</script>";
+        } else {
+            echo "<script>alert('Error al enviar la solicitud. Por favor, intenta de nuevo.');window.location.href='home.php';</script>";
+        }
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -81,13 +106,9 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
                 <li><a href="home.php">Inicio</a></li>
                 <li><a href="solicitudes.php">Solicitudes</a></li>
                 <li><a href="guardados.php">Guardados</a></li>
-                <li><a href="biblioteca.php">Biblioteca</a></li>
+                <li><a href=>Biblioteca</a></li>
             </ul>
         </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar libros">
-            <img src="img/filtro.png" alt="Icono de filtro" class="filter-icon">
-        </div>
     </header>
 
     <main>
@@ -219,8 +240,12 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <footer>
-        <button class="request-exchange">Solicitar intercambio</button>
-    </footer>
+    <form method="POST" action="">
+        <input type="hidden" name="accion" value="solicitar_intercambio">
+        <button type="submit" class="request-exchange">Solicitar intercambio</button>
+    </form>
+</footer>
+
 
     <script>
         let currentIndex = 0;
@@ -246,6 +271,8 @@ $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
             slide.style.transform = `translateY(-${(currentIndex) * 100}%)`;
         }
     </script>
+
+    
 </body>
 
 </html>

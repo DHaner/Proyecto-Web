@@ -42,23 +42,34 @@ header nav ul li {
   margin-right: 20px;
 }
 
-header nav ul li a {
+/* Estilo para los enlaces en el header */
+nav ul li a {
   text-decoration: none;
   color: #333;
   font-weight: bold;
+  position: relative; /* Para el subrayado animado */
+  transition: color 0.3s ease; /* Transición del color del texto */
 }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px; /* Espaciado debajo del texto */
+  width: 0;
+  height: 2px; /* Grosor de la línea */
+  background-color: #ff5252; /* Color del subrayado */
+  transition: width 0.3s ease; /* Animación del subrayado */
 }
 
-.search-bar input {
-  padding: 5px 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+nav ul li a:hover {
+  color: #ff5252; /* Cambia el color del texto al pasar el ratón */
 }
+
+nav ul li a:hover::after {
+  width: 100%; /* El subrayado se expande completamente */
+}
+
 
 /* Contenido principal */
 main {
@@ -66,8 +77,6 @@ main {
   gap: 10px;
   padding: 10px;
 }
-
-/* Detalles del libro */
 
 /* Detalles del libro */
 .book-details {
@@ -94,7 +103,6 @@ main {
 .book-details .author,
 .book-details .availability,
 .book-details .sinopsis {
-<<<<<<< HEAD
   margin: 8px 0;
   color: #555;
 }
@@ -102,7 +110,6 @@ main {
 .book-details .sinopsis {
   font-size: 14px; /* Reducir el tamaño de la sinopsis */
   line-height: 1.5;
-=======
     margin: 8px 0;
     color: #323232;
 }
@@ -112,7 +119,6 @@ main {
     line-height: 1.5;
     text-align: justify;
     align-items: justify;
->>>>>>> a15cd363cc734686ffb74a19a66a4eccb886214b
 }
 
 /* Sección de comentarios */
@@ -158,6 +164,7 @@ main {
 .rating {
   margin-top: 10px;
   color: #f5c518;
+  align-items: left;
 }
 
 /* Botón de solicitud de intercambio */
@@ -170,7 +177,7 @@ footer {
 }
 
 footer .request-exchange {
-  background-color: #ff6347;
+  background-color: #04383b;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -180,7 +187,7 @@ footer .request-exchange {
 }
 
 footer .request-exchange:hover {
-  background-color: #e5533d;
+  background-color: #2c2827;
 }
 
 .cards-container {
@@ -417,21 +424,6 @@ footer .request-exchange:hover {
 }
 
 button.request-exchange {
-<<<<<<< HEAD
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 30px;
-  width: 100%;
-}
-
-button.request-exchange:hover {
-  background-color: #218838;
-=======
     background-color: #0f100f;
     color: #fff;
     border: none;
@@ -445,6 +437,7 @@ button.request-exchange:hover {
 
 button.request-exchange:hover {
     background-color: #9da19e;
+    width: 100%;
 }
 
 
@@ -457,7 +450,6 @@ form {
     max-width: 320px; /* Más estrecho */
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
->>>>>>> a15cd363cc734686ffb74a19a66a4eccb886214b
 }
 
 /* Títulos del formulario */

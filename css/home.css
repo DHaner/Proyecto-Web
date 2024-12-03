@@ -29,11 +29,34 @@ nav ul li {
     margin: 0 15px;
 }
 
+/* Estilo para los enlaces en el header */
 nav ul li a {
     text-decoration: none;
     color: #333;
     font-weight: bold;
+    position: relative; /* Para el subrayado animado */
+    transition: color 0.3s ease; /* Transición del color del texto */
 }
+
+nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px; /* Espaciado debajo del texto */
+    width: 0;
+    height: 2px; /* Grosor de la línea */
+    background-color: #ff5252; /* Color del subrayado */
+    transition: width 0.3s ease; /* Animación del subrayado */
+}
+
+nav ul li a:hover {
+    color: #ff5252; /* Cambia el color del texto al pasar el ratón */
+}
+
+nav ul li a:hover::after {
+    width: 100%; /* El subrayado se expande completamente */
+}
+
 
 .search-bar {
     margin: 20px;
