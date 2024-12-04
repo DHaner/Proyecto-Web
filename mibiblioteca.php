@@ -1,10 +1,17 @@
 <?php
 session_start();
 include("conexion.php");
-
+$usuario = $_SESSION['username'];
 // Asegúrate de que la consulta esté correcta
+$Query = $conn->prepare("SELECT libro.* FROM libro INNER JOIN guardados ON libro.nombre = guardados.libro WHERE guardados.usuario = :usuario");
+$Query->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+$Query->execute();  // Usamos execute() en lugar de query()
+
+$Result = $Query->fetchAll(PDO::FETCH_ASSOC); // Obtener los resultados
+
+
 $Query = "SELECT nombre, autor, genero, img, COUNT(*) as disponibles, AVG(pt) as promedio_pt
-          FROM libro 
+          FROM libro INNER JOIN guardados ON libro.nombre = guardados.libro
           WHERE disponible = 'SI' 
           GROUP BY nombre, autor, genero, img";
 
@@ -56,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1>¡Hola, <?php printf($_SESSION["username"]); ?> 👋</h1>
         <nav>
             <ul>
-                <li><a href="home.php" style="color: #ff5252;">Inicio</a></li>
+                <li><a href="home.php">Inicio</a></li>
                 <li><a href="solicitudes.php">Solicitudes</a></li>
-                <li><a href="guardados.php">Guardados</a></li>
-                <li><a href="mibiblioteca.php">Biblioteca</a></li>
+                <li><a href="guardados.php" >Guardados</a></li>
+                <li><a href="mibiblioteca.php" style="color: #ff5252;">Biblioteca</a></li>
             </ul>
         </nav>
         <div class="search-bar">
@@ -86,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </header>
 
-    <h1>Libros disponibles</h1>
+    <h1>Tus libros</h1>
 
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>

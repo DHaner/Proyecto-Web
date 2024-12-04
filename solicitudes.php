@@ -27,7 +27,7 @@ $Result = $conn->query($Query);
                 <li><a href="home.php">Inicio</a></li>
                 <li><a href="solicitudes.php" style="color: #ff5252;">Solicitudes</a></li>
                 <li><a href="guardados.php">Guardados</a></li>
-                <li><a href="">Biblioteca</a></li>
+                <li><a href="mibiblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
         <!-- Barra de búsqueda y botón de filtros -->

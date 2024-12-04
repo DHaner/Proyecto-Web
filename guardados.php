@@ -2,9 +2,47 @@
 session_start();
 include("conexion.php");
 
-// Asegúrate de que la consulta es correcta
-$Query = "SELECT libro.* FROM libro INNER JOIN guardados ON libro.nombre = guardados.libro;";
+// Asegúrate de que la consulta esté correcta
+$Query = "SELECT libro.* FROM libro INNER JOIN guardados ON libro.nombre = guardados.libro;"; 
 $Result = $conn->query($Query);
+
+
+$Query = "SELECT nombre, autor, genero, img, COUNT(*) as disponibles, AVG(pt) as promedio_pt
+          FROM libro INNER JOIN guardados ON libro.nombre = guardados.libro
+          WHERE disponible = 'SI' 
+          GROUP BY nombre, autor, genero, img";
+
+$Result = $conn->query($Query);
+
+//===========================
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
+
+    if ($accion === 'guardar_favorito') {
+        $usuario = $_SESSION['username']; // Usuario actual
+        $libro = isset($_POST['libro']) ? htmlspecialchars($_POST['libro']) : '';
+
+        // Verifica si los datos están completos
+        if ($usuario && $libro) {
+            try {
+                // Inserta en la tabla guardados
+                $queryGuardar = $conn->prepare("INSERT INTO guardados (usuario, libro) VALUES (:usuario, :libro)");
+                $queryGuardar->bindParam(':usuario', $usuario, PDO::PARAM_STR);
+                $queryGuardar->bindParam(':libro', $libro, PDO::PARAM_STR);
+
+                if ($queryGuardar->execute()) {
+                    echo "<script>alert('¡Libro guardado exitosamente!');window.location.href='home.php';</script>";
+                } else {
+                    echo "<script>alert('Error al guardar el libro. Inténtalo nuevamente.');window.location.href='home.php';</script>";
+                }
+            } catch (Exception $e) {
+                echo "<script>alert('Error: " . $e->getMessage() . "');window.location.href='home.php';</script>";
+            }
+        } else {
+            echo "<script>alert('Datos incompletos.');window.location.href='home.php';</script>";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,18 +57,15 @@ $Result = $conn->query($Query);
 
 <body>
     <header>
-        <h1>
-            <?php printf($_SESSION["username"]); ?> 👋
-        </h1>
+        <h1>¡Hola, <?php printf($_SESSION["username"]); ?> 👋</h1>
         <nav>
             <ul>
                 <li><a href="home.php">Inicio</a></li>
-                <li><a href="solicitudes.php" >Solicitudes</a></li>
+                <li><a href="solicitudes.php">Solicitudes</a></li>
                 <li><a href="guardados.php" style="color: #ff5252;">Guardados</a></li>
-                <li><a href="">Biblioteca</a></li>
+                <li><a href="mibiblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
-        <!-- Barra de búsqueda y botón de filtros -->
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Buscar libros">
             <div class="dropdown">
@@ -54,7 +89,9 @@ $Result = $conn->query($Query);
             </div>
         </div>
     </header>
-    <h1>Tus guardados</h1>
+
+    <h1>Libros disponibles</h1>
+
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>
         <div class="carousel">
@@ -69,13 +106,23 @@ $Result = $conn->query($Query);
                         <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
                         <div class="card-overlay"></div>
                         <div class="card-favorite">
+                        <form method="POST">
+                            <input type="hidden" name="accion" value="guardar_favorito">
+                            <input type="hidden" name="libro" value="<?php echo htmlspecialchars($row['nombre']); ?>">
+                            <button type="submit" style="background: none; border: none; padding: 0;">
                             <img src="img/me gusta.png" alt="Me gusta">
+                            </button>
+                        </form>
                         </div>
+
                         <div class="card-content">
                             <h3 class="card-title"><?php echo $row["nombre"]; ?></h3>
                             <div class="card-author"><?php echo $row["autor"]; ?></div>
                             <div class="card-rating">
-                                <span>⭐ <?php echo $row["pt"]; ?></span>
+                                <span>⭐ <?php echo round($row["promedio_pt"], 1); ?></span>
+                            </div>
+                            <div class="card-available">
+                                <span>Disponibles: <?php echo $row["disponibles"]; ?></span>
                             </div>
                         </div>
                     </div>
@@ -126,6 +173,7 @@ $Result = $conn->query($Query);
             });
         }
     </script>
+
 </body>
 
 </html>

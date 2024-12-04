@@ -59,6 +59,23 @@ $queryComentarios->bindParam(':nombre', $nombre, PDO::PARAM_STR);
 $queryComentarios->execute();
 $comentarios = $queryComentarios->fetchAll(PDO::FETCH_ASSOC);
 
+// Calcular promedio de calificaciones
+$queryCalificaciones = $conn->prepare("SELECT AVG(calificacion) AS promedio FROM comentarios WHERE libro = :nombre");
+$queryCalificaciones->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+$queryCalificaciones->execute();
+$promedio = $queryCalificaciones->fetch(PDO::FETCH_ASSOC)['promedio'];
+
+// Si no hay calificaciones, establecer un valor por defecto
+if ($promedio === null) {
+    $promedio = 0;
+}
+
+// Contar la cantidad de libros disponibles (con "SI" en la columna disponibles)
+$queryDisponibles = $conn->prepare("SELECT COUNT(*) AS disponibles_count FROM libro WHERE nombre = :nombre AND disponible = 'SI'");
+$queryDisponibles->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+$queryDisponibles->execute();
+$disponibles = $queryDisponibles->fetch(PDO::FETCH_ASSOC)['disponibles_count'];
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
@@ -106,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <li><a href="home.php">Inicio</a></li>
                 <li><a href="solicitudes.php">Solicitudes</a></li>
                 <li><a href="guardados.php">Guardados</a></li>
-                <li><a href=>Biblioteca</a></li>
+                <li><a href="mibiblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
     </header>
@@ -117,10 +134,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($libro['img'] ?? 'default.jpg'); ?>');"></div>
                 <div class="card-overlay"></div>
                 <div class="card-content">
-                    <h3 class="card-title"><?php echo $libro["nombre"] . " - Disponibles: " . $libro["disponibles"]; ?></h3>
+                    <h3 class="card-title"><?php echo $libro["nombre"] . " - Disponibles: " . $disponibles; ?></h3>
                     <div class="card-author"><?php echo htmlspecialchars($libro['autor'] ?? 'Autor desconocido'); ?></div>
                     <div class="card-rating">
-                        <span>⭐ <?php echo $libro["pt"]; ?></span>
+                        <span>⭐ <?php echo $promedio; ?></span>
                     </div>
                 </div>
             </div>
@@ -143,33 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="radio" id="star1" name="calificacion" value="1" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 1) ? 'checked' : ''; ?> />
                     <label for="star1" title="1 estrella">⭐</label>
                 </div>
-                <style>
-                    .star-rating {
-                        display: flex;
-                        flex-direction: row-reverse;
-                        justify-content: center;
-                    }
-
-                    .star-rating input[type="radio"] {
-                        display: none;
-                    }
-
-                    .star-rating label {
-                        font-size: 2em;
-                        color: #ddd;
-                        cursor: pointer;
-                        transition: color 0.2s;
-                    }
-
-                    .star-rating input[type="radio"]:checked~label {
-                        color: #f5b301;
-                    }
-
-                    .star-rating label:hover,
-                    .star-rating label:hover~label {
-                        color: #f5b301;
-                    }
-                </style>
                 <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario aquí" required><?php echo isset($_POST['comentario']) ? htmlspecialchars($_POST['comentario']) : ''; ?></textarea>
 
                 <button type="submit"></button>
@@ -179,100 +169,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- Carrusel de comentarios -->
             <div class="carousel-container">
                 <button class="carousel-button prev">&#10094;</button>
-                <div class="carousel-slide">
+                <div class="carousel">
                     <?php
-                    if ($comentarios && count($comentarios) > 0) {
+                    if ($comentarios) {
                         $counter = 0;
-                        $chunks = array_chunk($comentarios, 3); // Agrupa los comentarios en bloques de 3
-                        foreach ($chunks as $chunk) {
-                            echo '<div class="carousel-item">';
-                            foreach ($chunk as $row) {
-                    ?>
-                                <div class="comment">
-                                    <div class="rating">
-                                        <?php for ($i = 0; $i < $row['calificacion']; $i++) echo '⭐'; ?>
+                        foreach ($comentarios as $comentario) {
+                            ?>
+                            <div class="carousel-item <?php echo ($counter == 0) ? 'active' : ''; ?>">
+                                <div class="comment-card">
+                                    <h4><?php echo htmlspecialchars($comentario['titulo']); ?></h4>
+                                    <div class="comment-author"><?php echo htmlspecialchars($comentario['usuario']); ?> - <?php echo date('d/m/Y', strtotime($comentario['fecha'])); ?></div>
+                                    <p><?php echo htmlspecialchars($comentario['comentario']); ?></p>
+                                    <div class="comment-rating">
+                                        ⭐ <?php echo $comentario['calificacion']; ?>
                                     </div>
-                                    <strong><?php echo htmlspecialchars($row['titulo']); ?></strong>
-                                    <p><?php echo htmlspecialchars($row['comentario']); ?></p>
-                                    <p><?php echo htmlspecialchars($row['usuario']); ?><span><?php echo htmlspecialchars($row['fecha']); ?></span></p>
                                 </div>
-                    <?php
-                            }
-                            echo '</div>';
+                            </div>
+                            <?php
+                            $counter++;
                         }
                     } else {
-                        echo '<p>No hay comentarios disponibles para este libro.</p>';
+                        echo "<p>No hay comentarios aún.</p>";
                     }
                     ?>
                 </div>
                 <button class="carousel-button next">&#10095;</button>
             </div>
 
-            <!-- Script JavaScript -->
-            <script>
-                let currentIndex = 0;
-                const slides = document.querySelectorAll('.carousel-item');
-                const totalSlides = slides.length;
-                const slideContainer = document.querySelector('.carousel-slide');
-
-                // Función para mover el carrusel
-                function updateCarousel() {
-                    const itemHeight = slides[0].offsetHeight; // Altura de un bloque de 3 comentarios
-                    slideContainer.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
-                }
-
-                // Evento para el botón "Next"
-                document.querySelector('.next').addEventListener('click', () => {
-                    if (currentIndex < totalSlides - 1) {
-                        currentIndex++;
-                        updateCarousel();
-                    }
-                });
-
-                // Evento para el botón "Prev"
-                document.querySelector('.prev').addEventListener('click', () => {
-                    if (currentIndex > 0) {
-                        currentIndex--;
-                        updateCarousel();
-                    }
-                });
-            </script>
+            <!-- Botón de solicitud de intercambio -->
+            <form method="POST" action="">
+                <button type="submit" name="accion" value="solicitar_intercambio" class="intercambio-btn">Solicitar Intercambio</button>
+            </form>
+        </div>
     </main>
-
-    <footer>
-    <form method="POST" action="">
-        <input type="hidden" name="accion" value="solicitar_intercambio">
-        <button type="submit" class="request-exchange">Solicitar intercambio</button>
-    </form>
-</footer>
-
-
-    <script>
-        let currentIndex = 0;
-        const items = document.querySelectorAll('.carousel-item');
-        const totalItems = items.length;
-
-        document.querySelector('.next').addEventListener('click', () => {
-            if (currentIndex + 1 < totalItems) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        document.querySelector('.prev').addEventListener('click', () => {
-            if (currentIndex - 1 >= 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        function updateCarousel() {
-            const slide = document.querySelector('.carousel-slide');
-            slide.style.transform = `translateY(-${(currentIndex) * 100}%)`;
-        }
-    </script>
-
-    
 </body>
 
 </html>
