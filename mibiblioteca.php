@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Virtual</title>
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/biblioteca.css">
 </head>
 
 <body>
@@ -91,6 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </div>
+        <div class="add-book-button">
+        <a href="agregarlibro.php" class="button">Agregar libro</a>
+    </div>
     </header>
 
     <h1>Tus libros</h1>
@@ -123,10 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-author"><?php echo $row["autor"]; ?></div>
                             <div class="card-rating">
                                 <span>⭐ <?php echo round($row["promedio_pt"], 1); ?></span>
-                            </div>
-                            <div class="card-available">
-                                <span>Disponibles: <?php echo $row["disponibles"]; ?></span>
-                            </div>
+                            </div>z
                         </div>
                     </div>
                 </a>
