@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     </header>
 
-    <h1>Tus libros</h1>
+    <h1>Mis guardados</h1>
 
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>

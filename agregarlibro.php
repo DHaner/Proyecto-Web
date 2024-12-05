@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="nuevo">Ingresar nuevo libro</option>
                     <!-- Aquí debes cargar los libros existentes para que el usuario pueda seleccionarlos -->
                     <?php
-                    $query = "SELECT nombre FROM libro";
+                    $query = "SELECT DISTINCT nombre FROM libro";
                     $result = $conn->query($query);
                     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                         echo "<option value='" . htmlspecialchars($row['nombre']) . "'>" . htmlspecialchars($row['nombre']) . "</option>";

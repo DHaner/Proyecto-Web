@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                          data-disponibles="<?php echo $row['disponibles']; ?>">
                         <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
                         <div class="card-overlay"></div>
-                        <div class="card-favorite">
+                        <div class="card-favorite" style="background: rgba(255, 0, 0, 0.582);">
                         <form method="POST">
                             <input type="hidden" name="accion" value="guardar_favorito">
                             <input type="hidden" name="libro" value="<?php echo htmlspecialchars($row['nombre']); ?>">
