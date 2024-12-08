@@ -2,14 +2,37 @@
 session_start();
 include("conexion.php");
 
-// Consulta para obtener libros y estados de solicitudes
-$Query = "SELECT libro.*, solicitudes.estado 
+// Consulta para obtener libros, estados de solicitudes y datos del usuario solicitante
+$Query = "SELECT libro.*, solicitudes.estado, solicitudes.usuario_sol AS solicitante, usuarios.telefono AS telefono 
           FROM libro 
           INNER JOIN solicitudes 
           ON libro.nombre = solicitudes.libro 
+          INNER JOIN usuarios 
+          ON solicitudes.usuario_sol = usuarios.user
           WHERE solicitudes.usuario_pres = :username";
 $Result = $conn->prepare($Query);
 $Result->execute([':username' => $_SESSION["username"]]);
+
+// Procesar la solicitud de aceptar o rechazar
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'];
+    $libro = $_POST['libro'];
+
+    if ($action == 'accept') {
+        // Cambiar el estado de la solicitud a "Aceptado"
+        $updateQuery = "UPDATE solicitudes SET estado = 'aceptado' WHERE libro = :libro AND usuario_pres = :usuario";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
+        echo "Solicitud aceptada";
+    } elseif ($action == 'reject') {
+        // Cambiar el estado de la solicitud a "Rechazado"
+        $updateQuery = "UPDATE solicitudes SET estado = 'rechazado' WHERE libro = :libro AND usuario_pres = :usuario";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
+        echo "Solicitud rechazada";
+    }
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +65,8 @@ $Result->execute([':username' => $_SESSION["username"]]);
     <!-- Botones de filtro -->
     <div class="filter-buttons">
         <button onclick="filterByStatus('todos')">Ver Todos</button>
-        <button onclick="filterByStatus('aceptados')">Aceptados</button>
-        <button onclick="filterByStatus('rechazados')">Rechazados</button>
+        <button onclick="filterByStatus('aceptado')">Aceptados</button>
+        <button onclick="filterByStatus('rechazado')">Rechazados</button>
         <button onclick="filterByStatus('en espera')">En espera</button>
     </div>
 
@@ -54,21 +77,19 @@ $Result->execute([':username' => $_SESSION["username"]]);
             <?php
             while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
             ?>
-                <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
-                    <div class="card-container" 
-                         data-estado="<?php echo strtolower($row['estado']); ?>">
-                        <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
-                        <div class="card-overlay"></div>
-                        <div class="card-content">
-                            <h3 class="card-title"><?php echo $row["nombre"]; ?></h3>
-                            <div class="card-author"><?php echo $row["autor"]; ?></div>
-                            <div class="card-rating">
-                                <span>⭐ <?php echo $row["pt"]; ?></span>
-                            </div>
-                            <div class="card-status">Estado: <?php echo ucfirst($row["estado"]); ?></div>
-                        </div>
+                <div class="card-container" data-estado="<?php echo strtolower($row['estado']); ?>">
+                    <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
+                    <div class="card-content">
+                        <h3 class="card-title"><?php echo $row["nombre"]; ?></h3>
+                        <div class="card-author"><?php echo $row["autor"]; ?></div>
+                        <div class="card-status">Estado: <?php echo ucfirst($row["estado"]); ?></div>
+
+                        <?php if (strtolower($row['estado']) === 'en espera') { ?>
+                            <button onclick="acceptRequest('<?php echo $row['nombre']; ?>', '<?php echo $row['solicitante']; ?>', '<?php echo $row['telefono']; ?>')">Aceptar</button>
+                            <button onclick="rejectRequest('<?php echo $row['nombre']; ?>')">Rechazar</button>
+                        <?php } ?>
                     </div>
-                </a>
+                </div>
             <?php } ?>
         </div>
         <button class="arrow right" onclick="moveCarousel(1)">&#10095;</button>
@@ -97,9 +118,48 @@ $Result->execute([':username' => $_SESSION["username"]]);
     });
 }
 
+
+        function acceptRequest(libro, usuario, telefono) {
+            const confirmMsg = `Comunícate con el usuario ${usuario}. Teléfono: ${telefono}`;
+            const userAction = confirm(confirmMsg);
+            if (userAction) {
+                // Enviar solicitud de aceptación al servidor
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=accept&libro=${encodeURIComponent(libro)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Recargar la página
+                });
+            }
+        }
+
+        function rejectRequest(libro) {
+            if (confirm('¿Estás seguro de rechazar esta solicitud?')) {
+                // Enviar solicitud de rechazo al servidor
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=reject&libro=${encodeURIComponent(libro)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Recargar la página
+                });
+            }
+        }
+
         function moveCarousel(direction) {
             const carousel = document.querySelector('.carousel');
-            const scrollAmount = 300; // Ajusta según el diseño
+            const scrollAmount = 300;
             carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
         }
     </script>

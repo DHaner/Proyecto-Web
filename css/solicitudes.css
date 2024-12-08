@@ -32,8 +32,6 @@
     opacity: 0.8; /* Más transparente */
 }
 
-
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -92,7 +90,6 @@ nav ul li a:hover {
 nav ul li a:hover::after {
     width: 100%; /* El subrayado se expande completamente */
 }
-
 
 .search-bar {
     margin: 20px;
@@ -171,7 +168,7 @@ nav ul li a:hover::after {
     bottom: 0;
     left: 7.41%;
     right: 9.63%;
-    top: 73.67%;
+    top: 50.67%;
     background: rgba(29, 29, 29, 0.8);
     box-shadow: 0px 5px 9px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
@@ -390,4 +387,41 @@ nav ul li a:hover::after {
 
 .arrow.right {
     right: 10px;
+}
+
+/* Estilo para los botones de aceptar y rechazar */
+.card-content button {
+    background-color: #4CAF50; /* Verde para el botón de aceptar */
+    color: white; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    padding: 12px 25px; /* Ajustar tamaño de los botones */
+    margin: 10px 5px; /* Espaciado entre los botones */
+    font-size: 16px; /* Tamaño de fuente */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: auto; /* Ajuste automático de ancho */
+    min-width: 120px; /* Asegura que el botón tenga un tamaño mínimo */
+}
+
+/* Estilo para el botón de rechazar */
+.card-content button.reject {
+    background-color: #f44336; /* Rojo para el botón de rechazar */
+}
+
+/* Efecto hover */
+.card-content button:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Efecto de levantamiento */
+}
+
+/* Efecto hover para el botón de rechazar */
+.card-content button.reject:hover {
+    background-color: #d32f2f; /* Rojo más oscuro para el botón de rechazar */
+}
+
+/* Efecto cuando el botón está activo */
+.card-content button:active {
+    transform: scale(0.98); /* Reduce un poco el tamaño para efecto de clic */
 }
