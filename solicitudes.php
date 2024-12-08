@@ -2,9 +2,14 @@
 session_start();
 include("conexion.php");
 
-// Asegúrate de que la consulta es correcta
-$Query = "SELECT libro.* FROM libro INNER JOIN solicitudes ON libro.nombre = solicitudes.libro;";
-$Result = $conn->query($Query);
+// Consulta para obtener libros y estados de solicitudes
+$Query = "SELECT libro.*, solicitudes.estado 
+          FROM libro 
+          INNER JOIN solicitudes 
+          ON libro.nombre = solicitudes.libro 
+          WHERE solicitudes.usuario_pres = :username";
+$Result = $conn->prepare($Query);
+$Result->execute([':username' => $_SESSION["username"]]);
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +19,13 @@ $Result = $conn->query($Query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca Virtual</title>
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/solicitudes.css">
 </head>
 
 <body>
     <header>
         <h1>
-            <?php printf($_SESSION["username"]); ?> 👋
+            <?php echo htmlspecialchars($_SESSION["username"]); ?> 👋
         </h1>
         <nav>
             <ul>
@@ -30,31 +35,19 @@ $Result = $conn->query($Query);
                 <li><a href="mibiblioteca.php">Biblioteca</a></li>
             </ul>
         </nav>
-        <!-- Barra de búsqueda y botón de filtros -->
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Buscar libros">
-            <div class="dropdown">
-                <button class="dropdown-toggle" onclick="toggleDropdown()">
-                    <img src="img/filtro.png" alt="Filtros">
-                </button>
-                <div class="dropdown-menu" id="dropdown-menu">
-                    <label>
-                        <input type="radio" name="filter-type" value="titulo" checked onclick="closeDropdown()"> Título
-                    </label>
-                    <label>
-                        <input type="radio" name="filter-type" value="autor" onclick="closeDropdown()"> Autor
-                    </label>
-                    <label>
-                        <input type="radio" name="filter-type" value="genero" onclick="closeDropdown()"> Género
-                    </label>
-                    <label>
-                        <input type="checkbox" id="filter-available" onclick="closeDropdown()"> Disponibles
-                    </label>
-                </div>
-            </div>
-        </div>
     </header>
-    <h1>Tus solicitudes</h1>
+
+    <h1>Tus Solicitudes</h1>
+
+    <!-- Botones de filtro -->
+    <div class="filter-buttons">
+        <button onclick="filterByStatus('todos')">Ver Todos</button>
+        <button onclick="filterByStatus('aceptados')">Aceptados</button>
+        <button onclick="filterByStatus('rechazados')">Rechazados</button>
+        <button onclick="filterByStatus('en espera')">En espera</button>
+    </div>
+
+    <!-- Contenedor de libros -->
     <div class="carousel-container">
         <button class="arrow left" onclick="moveCarousel(-1)">&#10094;</button>
         <div class="carousel">
@@ -62,21 +55,17 @@ $Result = $conn->query($Query);
             while ($row = $Result->fetch(PDO::FETCH_ASSOC)) {
             ?>
                 <a href="libro.php?nombre=<?php echo $row['nombre']; ?>" class="card-link">
-                    <div class="card-container" data-titulo="<?php echo strtolower($row['nombre']); ?>" 
-                         data-autor="<?php echo strtolower($row['autor']); ?>" 
-                         data-genero="<?php echo strtolower($row['genero']); ?>" 
-                         data-disponibles="<?php echo $row['disponibles']; ?>">
+                    <div class="card-container" 
+                         data-estado="<?php echo strtolower($row['estado']); ?>">
                         <div class="card-image" style="background-image: url('<?php echo htmlspecialchars($row['img']); ?>');"></div>
                         <div class="card-overlay"></div>
-                        <div class="card-favorite">
-                            <img src="img/me gusta.png" alt="Me gusta">
-                        </div>
                         <div class="card-content">
                             <h3 class="card-title"><?php echo $row["nombre"]; ?></h3>
                             <div class="card-author"><?php echo $row["autor"]; ?></div>
                             <div class="card-rating">
                                 <span>⭐ <?php echo $row["pt"]; ?></span>
                             </div>
+                            <div class="card-status">Estado: <?php echo ucfirst($row["estado"]); ?></div>
                         </div>
                     </div>
                 </a>
@@ -86,44 +75,32 @@ $Result = $conn->query($Query);
     </div>
 
     <script>
-        function toggleDropdown() {
-            const menu = document.getElementById('dropdown-menu');
-            menu.classList.toggle('active');
+        function filterByStatus(status) {
+    const buttons = document.querySelectorAll('.filter-buttons button');
+    const cards = document.querySelectorAll('.card-container');
+
+    // Actualizar el estado de los botones
+    buttons.forEach(button => {
+        button.classList.remove('active'); // Quitar la clase activa de todos los botones
+        if (button.textContent.toLowerCase().includes(status)) {
+            button.classList.add('active'); // Añadir la clase activa al botón actual
         }
+    });
 
-        function closeDropdown() {
-            const menu = document.getElementById('dropdown-menu');
-            menu.classList.remove('active');
+    // Filtrar las tarjetas según el estado
+    cards.forEach(card => {
+        if (status === 'todos' || card.dataset.estado === status) {
+            card.parentElement.style.display = 'block'; // Mostrar
+        } else {
+            card.parentElement.style.display = 'none'; // Ocultar
         }
+    });
+}
 
-        document.getElementById('search-input').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                searchBooks();
-            }
-        });
-
-        function searchBooks() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filterType = document.querySelector('input[name="filter-type"]:checked').value;
-            const filterAvailable = document.getElementById('filter-available').checked;
-            const cards = document.querySelectorAll('.card-container');
-
-            cards.forEach(card => {
-                const title = card.dataset.titulo;
-                const author = card.dataset.autor;
-                const genre = card.dataset.genero;
-                const available = parseInt(card.dataset.disponibles, 10) > 0;
-
-                let matchesSearch = false;
-
-                if (filterType === "titulo" && title.includes(searchTerm)) matchesSearch = true;
-                if (filterType === "autor" && author.includes(searchTerm)) matchesSearch = true;
-                if (filterType === "genero" && genre.includes(searchTerm)) matchesSearch = true;
-
-                if (filterAvailable && !available) matchesSearch = false;
-
-                card.parentElement.style.display = matchesSearch ? 'block' : 'none';
-            });
+        function moveCarousel(direction) {
+            const carousel = document.querySelector('.carousel');
+            const scrollAmount = 300; // Ajusta según el diseño
+            carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
         }
     </script>
 </body>

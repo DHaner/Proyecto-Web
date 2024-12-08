@@ -1,22 +1,38 @@
-.add-book-button {
-    margin: 20px 0;
-    text-align: center;
-}
-
-.add-book-button .button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #2d2d2d; /* Color verde */
-    color: white;
-    text-decoration: none;
+/* Estilo general para los botones de filtro */
+.filter-buttons button {
+    background-color: #d3d3d3; /* Gris claro cuando no está activo */
+    color: #333; /* Texto en gris oscuro */
+    border: none;
     border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
     font-size: 16px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.add-book-button .button:hover {
-    background-color: #45a049; /* Color más oscuro al pasar el mouse */
+/* Efecto hover */
+.filter-buttons button:hover {
+    background-color: #bcbcbc; /* Gris intermedio al pasar el cursor */
+    transform: translateY(-2px); /* Efecto de levantamiento */
 }
+
+/* Botón activo */
+.filter-buttons button.active {
+    background-color: #808080; /* Gris más oscuro para activo */
+    color: white; /* Texto blanco para contraste */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05); /* Ligeramente más grande */
+}
+
+/* Botón deshabilitado visualmente (por ejemplo, no seleccionado) */
+.filter-buttons button:not(.active) {
+    opacity: 0.8; /* Más transparente */
+}
+
+
 
 body {
     font-family: Arial, sans-serif;
@@ -375,4 +391,3 @@ nav ul li a:hover::after {
 .arrow.right {
     right: 10px;
 }
-
