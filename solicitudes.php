@@ -12,27 +12,6 @@ $Query = "SELECT libro.*, solicitudes.estado, solicitudes.usuario_sol AS solicit
           WHERE solicitudes.usuario_pres = :username";
 $Result = $conn->prepare($Query);
 $Result->execute([':username' => $_SESSION["username"]]);
-
-// Procesar la solicitud de aceptar o rechazar
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $action = $_POST['action'];
-    $libro = $_POST['libro'];
-
-    if ($action == 'accept') {
-        // Cambiar el estado de la solicitud a "Aceptado"
-        $updateQuery = "UPDATE solicitudes SET estado = 'aceptado' WHERE libro = :libro AND usuario_pres = :usuario";
-        $updateStmt = $conn->prepare($updateQuery);
-        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
-        echo "Solicitud aceptada";
-    } elseif ($action == 'reject') {
-        // Cambiar el estado de la solicitud a "Rechazado"
-        $updateQuery = "UPDATE solicitudes SET estado = 'rechazado' WHERE libro = :libro AND usuario_pres = :usuario";
-        $updateStmt = $conn->prepare($updateQuery);
-        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
-        echo "Solicitud rechazada";
-    }
-    exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -65,8 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Botones de filtro -->
     <div class="filter-buttons">
         <button onclick="filterByStatus('todos')">Ver Todos</button>
-        <button onclick="filterByStatus('aceptado')">Aceptados</button>
-        <button onclick="filterByStatus('rechazado')">Rechazados</button>
+        <button onclick="filterByStatus('aceptados')">Aceptados</button>
+        <button onclick="filterByStatus('rechazados')">Rechazados</button>
         <button onclick="filterByStatus('en espera')">En espera</button>
     </div>
 
@@ -97,63 +76,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <script>
         function filterByStatus(status) {
-    const buttons = document.querySelectorAll('.filter-buttons button');
-    const cards = document.querySelectorAll('.card-container');
-
-    // Actualizar el estado de los botones
-    buttons.forEach(button => {
-        button.classList.remove('active'); // Quitar la clase activa de todos los botones
-        if (button.textContent.toLowerCase().includes(status)) {
-            button.classList.add('active'); // Añadir la clase activa al botón actual
+            const cards = document.querySelectorAll('.card-container');
+            cards.forEach(card => {
+                if (status === 'todos' || card.dataset.estado === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
-    });
-
-    // Filtrar las tarjetas según el estado
-    cards.forEach(card => {
-        if (status === 'todos' || card.dataset.estado === status) {
-            card.parentElement.style.display = 'block'; // Mostrar
-        } else {
-            card.parentElement.style.display = 'none'; // Ocultar
-        }
-    });
-}
-
 
         function acceptRequest(libro, usuario, telefono) {
             const confirmMsg = `Comunícate con el usuario ${usuario}. Teléfono: ${telefono}`;
             const userAction = confirm(confirmMsg);
             if (userAction) {
-                // Enviar solicitud de aceptación al servidor
-                fetch('', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `action=accept&libro=${encodeURIComponent(libro)}`
-                })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
-                    location.reload(); // Recargar la página
-                });
+                // Cambiar estado a "Aceptado" en la base de datos
+                fetch(`update_request.php?action=accept&libro=${encodeURIComponent(libro)}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        alert('Solicitud aceptada.');
+                        location.reload(); // Recargar la página
+                    });
             }
         }
 
         function rejectRequest(libro) {
             if (confirm('¿Estás seguro de rechazar esta solicitud?')) {
-                // Enviar solicitud de rechazo al servidor
-                fetch('', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `action=reject&libro=${encodeURIComponent(libro)}`
-                })
-                .then(response => response.text())
-                .then(data => {
-                    alert(data);
-                    location.reload(); // Recargar la página
-                });
+                // Cambiar estado a "Rechazado" en la base de datos
+                fetch(`update_request.php?action=reject&libro=${encodeURIComponent(libro)}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        alert('Solicitud rechazada.');
+                        location.reload(); // Recargar la página
+                    });
             }
         }
 

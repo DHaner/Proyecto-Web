@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         // Insertar en la tabla `solicitudes`
         $queryInsert = $conn->prepare("
             INSERT INTO solicitudes (usuario_sol, libro, usuario_pres, estado)
-            VALUES (:usuario_sol, :libro, :usuario_pres, 'disponible')
+            VALUES (:usuario_sol, :libro, :usuario_pres, 'en espera')
         ");
         $queryInsert->bindParam(':usuario_sol', $usuario_sol, PDO::PARAM_STR);
         $queryInsert->bindParam(':libro', $nombre, PDO::PARAM_STR); // Libro actual
