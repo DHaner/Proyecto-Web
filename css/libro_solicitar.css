@@ -1,0 +1,410 @@
+/* Estilo base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Encabezado */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+header .user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+header nav ul li {
+  margin-right: 20px;
+}
+
+/* Estilo para los enlaces en el header */
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  position: relative; /* Para el subrayado animado */
+  transition: color 0.3s ease; /* Transición del color del texto */
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px; /* Espaciado debajo del texto */
+  width: 0;
+  height: 2px; /* Grosor de la línea */
+  background-color: #ff5252; /* Color del subrayado */
+  transition: width 0.3s ease; /* Animación del subrayado */
+}
+
+nav ul li a:hover {
+  color: #ff5252; /* Cambia el color del texto al pasar el ratón */
+}
+
+nav ul li a:hover::after {
+  width: 100%; /* El subrayado se expande completamente */
+}
+
+/* Contenido principal */
+main {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Detalles del libro */
+.book-details {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px; /* Limitar el ancho */
+}
+
+.book-details img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.book-details h3 {
+  font-size: 20px; /* Reducción del tamaño de fuente */
+  margin-bottom: 8px;
+}
+
+.book-details .author,
+.book-details .availability,
+.book-details .sinopsis {
+  margin: 8px 0;
+  color: #555;
+}
+
+.book-details .sinopsis {
+  font-size: 14px; /* Reducir el tamaño de la sinopsis */
+  line-height: 1.5;
+  margin: 8px 0;
+  color: #323232;
+}
+
+.book-details .sinopsis {
+  font-size: 16px; /* Reducir el tamaño de la sinopsis */
+  line-height: 1.5;
+  text-align: justify;
+  align-items: justify;
+}
+
+/* Botón de solicitud de intercambio */
+footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+footer .request-exchange {
+  background-color: #04383b;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+footer .request-exchange:hover {
+  background-color: #2c2827;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card-container {
+  position: relative;
+  width: 270px;
+  height: 414px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-container:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+
+.card-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.221);
+  filter: blur(20px);
+  z-index: 1;
+}
+
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 7.41%;
+  right: 9.63%;
+  top: 73.67%;
+  background: rgba(29, 29, 29, 0.8);
+  box-shadow: 0px 5px 9px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  color: white;
+  z-index: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.card-author {
+  font-size: 14px;
+  font-weight: 400;
+  color: #cac8c8;
+}
+
+.card-rating {
+  font-size: 14px;
+  font-weight: 400;
+  color: #cac8c8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-rating span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-favorite {
+  position: absolute;
+  top: 6.52%;
+  right: 10.37%;
+  background: rgba(29, 29, 29, 0.4);
+  backdrop-filter: blur(20px);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.card-favorite:hover {
+  background: rgba(255, 82, 82, 0.8);
+}
+
+.card-favorite i {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+/* Carrusel de comentarios vertical */
+.carousel-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 450px; /* Muestra solo tres comentarios a la vez */
+  position: relative;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+/* Modificar el contenedor de los comentarios */
+.carousel-slide {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Estilos de los bloques de comentarios */
+.carousel-item {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos de los comentarios */
+.comment {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+/* Flechas de desplazamiento */
+.carousel-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 10;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Flecha hacia arriba */
+.prev {
+  top: 10px;
+  transform: translateX(-50%) rotate(90deg); /* Flecha hacia arriba */
+}
+
+/* Flecha hacia abajo */
+.next {
+  bottom: 10px;
+  transform: translateX(-50%) rotate(90deg); /* Flecha hacia abajo */
+}
+
+.formulario {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.formulario {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.formulario label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.formulario input[type="text"],
+.formulario select,
+.formulario textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.formulario button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formulario button:hover {
+  background-color: #45a049;
+}
+
+.formulario form {
+  width: 100%;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 5px;
+}
+
+.rating input[type="radio"] {
+  display: none;
+}
+
+.rating label {
+  font-size: 5em;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.rating input[type="radio"]:checked ~ label {
+  color: #f5b301;
+}
+
+.rating label:hover,
+.rating label:hover ~ label {
+  color: #f5b301;
+}
+
+.enviar-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.enviar-btn:hover {
+  background-color: #0056b3;
+}
