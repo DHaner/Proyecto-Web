@@ -8,10 +8,31 @@ $Query = "SELECT libro.*, solicitudes.estado, solicitudes.usuario_sol AS solicit
           INNER JOIN solicitudes 
           ON libro.nombre = solicitudes.libro 
           INNER JOIN usuarios 
-          ON solicitudes.usuario_sol = usuarios.user
+          ON solicitudes.usuario_sol = usuarios.username
           WHERE solicitudes.usuario_pres = :username";
 $Result = $conn->prepare($Query);
 $Result->execute([':username' => $_SESSION["username"]]);
+
+// Procesar la solicitud de aceptar o rechazar
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $action = $_POST['action'];
+    $libro = $_POST['libro'];
+
+    if ($action == 'accept') {
+        // Cambiar el estado de la solicitud a "Aceptado"
+        $updateQuery = "UPDATE solicitudes SET estado = 'aceptado' WHERE libro = :libro AND usuario_pres = :usuario";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
+        echo "Solicitud aceptada";
+    } elseif ($action == 'reject') {
+        // Cambiar el estado de la solicitud a "Rechazado"
+        $updateQuery = "UPDATE solicitudes SET estado = 'rechazado' WHERE libro = :libro AND usuario_pres = :usuario";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->execute([':libro' => $libro, ':usuario' => $_SESSION["username"]]);
+        echo "Solicitud rechazada";
+    }
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -90,25 +111,37 @@ $Result->execute([':username' => $_SESSION["username"]]);
             const confirmMsg = `Comunícate con el usuario ${usuario}. Teléfono: ${telefono}`;
             const userAction = confirm(confirmMsg);
             if (userAction) {
-                // Cambiar estado a "Aceptado" en la base de datos
-                fetch(`update_request.php?action=accept&libro=${encodeURIComponent(libro)}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        alert('Solicitud aceptada.');
-                        location.reload(); // Recargar la página
-                    });
+                // Enviar solicitud de aceptación al servidor
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=accept&libro=${encodeURIComponent(libro)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Recargar la página
+                });
             }
         }
 
         function rejectRequest(libro) {
             if (confirm('¿Estás seguro de rechazar esta solicitud?')) {
-                // Cambiar estado a "Rechazado" en la base de datos
-                fetch(`update_request.php?action=reject&libro=${encodeURIComponent(libro)}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        alert('Solicitud rechazada.');
-                        location.reload(); // Recargar la página
-                    });
+                // Enviar solicitud de rechazo al servidor
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=reject&libro=${encodeURIComponent(libro)}`
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload(); // Recargar la página
+                });
             }
         }
 
