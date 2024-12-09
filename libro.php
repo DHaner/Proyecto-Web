@@ -79,6 +79,7 @@ $disponibles = $queryDisponibles->fetch(PDO::FETCH_ASSOC)['disponibles_count'];
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $accion = isset($_POST['accion']) ? $_POST['accion'] : '';
 
+    /*
     if ($accion === 'solicitar_intercambio') {
         $usuario = $_SESSION['username']; // Usuario actual
         $libro = $nombre; // Nombre del libro previamente recogido
@@ -96,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             echo "<script>alert('Error al enviar la solicitud. Por favor, intenta de nuevo.');window.location.href='home.php';</script>";
         }
-    }
+    }*/
 }
 
 
@@ -174,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if ($comentarios) {
                         $counter = 0;
                         foreach ($comentarios as $comentario) {
-                            ?>
+                    ?>
                             <div class="carousel-item <?php echo ($counter == 0) ? 'active' : ''; ?>">
                                 <div class="comment-card">
                                     <h4><?php echo htmlspecialchars($comentario['titulo']); ?></h4>
@@ -185,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
                             </div>
-                            <?php
+                    <?php
                             $counter++;
                         }
                     } else {
@@ -196,10 +197,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button class="carousel-button next">&#10095;</button>
             </div>
 
-            <!-- Botón de solicitud de intercambio -->
-            <form method="POST" action="">
-                <button type="submit" name="accion" value="solicitar_intercambio" class="intercambio-btn">Solicitar Intercambio</button>
-            </form>
+            <a href="libro_solicitar.php?nombre=<?php echo $nombre; ?>"> papu vinculo </a>
+
         </div>
     </main>
 </body>
