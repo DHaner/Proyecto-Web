@@ -425,3 +425,81 @@ nav ul li a:hover::after {
 .card-content button:active {
     transform: scale(0.98); /* Reduce un poco el tamaño para efecto de clic */
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #ff5252;
+    text-decoration: none;
+}
+
+.modal-content h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Button styles for modal */
+.modal-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-button.confirm {
+    background-color: #4caf50;
+    color: white;
+}
+
+.modal-button.cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.modal-button.confirm:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.modal-button.cancel:hover {
+    background-color: #d32f2f;
+    transform: scale(1.05);
+}
+
+.modal-button:active {
+    transform: scale(0.95);
+}
