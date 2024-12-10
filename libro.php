@@ -149,18 +149,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- Formulario de comentarios -->
             <h3>Agrega tu reseña</h3>
             <form method="POST" action="">
-                <div class="star-rating">
+                <div class="rate">
                     <input type="radio" id="star5" name="calificacion" value="5" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 5) ? 'checked' : ''; ?> />
-                    <label for="star5" title="5 estrellas">⭐</label>
+                    <label for="star5" title="text">5 stars</label>
                     <input type="radio" id="star4" name="calificacion" value="4" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 4) ? 'checked' : ''; ?> />
-                    <label for="star4" title="4 estrellas">⭐</label>
+                    <label for="star4" title="text">4 stars</label>
                     <input type="radio" id="star3" name="calificacion" value="3" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 3) ? 'checked' : ''; ?> />
-                    <label for="star3" title="3 estrellas">⭐</label>
+                    <label for="star3" title="text">3 stars</label>
                     <input type="radio" id="star2" name="calificacion" value="2" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 2) ? 'checked' : ''; ?> />
-                    <label for="star2" title="2 estrellas">⭐</label>
+                    <label for="star2" title="text">2 stars</label>
                     <input type="radio" id="star1" name="calificacion" value="1" <?php echo (isset($_POST['calificacion']) && $_POST['calificacion'] == 1) ? 'checked' : ''; ?> />
-                    <label for="star1" title="1 estrella">⭐</label>
+                    <label for="star1" title="text">1 star</label>
                 </div>
+                <input type="text" id="titulo" name="titulo" placeholder="Título del comentario" value="<?php echo isset($_POST['titulo']) ? htmlspecialchars($_POST['titulo']) : ''; ?>" required>
                 <textarea id="comentario" name="comentario" placeholder="Escribe tu comentario aquí" required><?php echo isset($_POST['comentario']) ? htmlspecialchars($_POST['comentario']) : ''; ?></textarea>
 
                 <button type="submit"></button>
@@ -170,7 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- Carrusel de comentarios -->
             <div class="carousel-container">
                 <button class="carousel-button prev">&#10094;</button>
-                <div class="carousel">
+                <div class="carousel-slide">
                     <?php
                     if ($comentarios) {
                         $counter = 0;
@@ -197,10 +198,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button class="carousel-button next">&#10095;</button>
             </div>
 
-            <a href="libro_solicitar.php?nombre=<?php echo $nombre; ?>"> papu vinculo </a>
+            <a class="solicitar" href="libro_solicitar.php?nombre=<?php echo $nombre; ?>"> Solicitar Intercambio </a>
 
         </div>
     </main>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const carousel = document.querySelector(".carousel-slide");
+        const items = document.querySelectorAll(".carousel-item");
+        const prevButton = document.querySelector(".carousel-button.prev");
+        const nextButton = document.querySelector(".carousel-button.next");
+
+        let currentIndex = 0;
+        const totalItems = items.length;
+        const visibleItems = 3; // Número de comentarios visibles al mismo tiempo
+        const itemHeight = items[0].offsetHeight + 10; // Altura del item + margen (10px en el CSS)
+
+        function updateCarousel() {
+            const offset = -currentIndex * itemHeight;
+            carousel.style.transform = `translateY(${offset}px)`;
+        }
+
+        prevButton.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        nextButton.addEventListener("click", () => {
+            if (currentIndex < totalItems - visibleItems) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+    });
+</script>
 
 </html>

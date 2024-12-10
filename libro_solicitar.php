@@ -108,66 +108,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
         </div>
 
         <!-- SOLITIAR LIBRO -->
-        <h1>Usuarios que poseen el libro "<?php echo htmlspecialchars($nombre); ?>"</h1>
-        <div class="comments-section">
-            <form method="POST" action="" class="solicitar-form">
-                <h3>Solicitar</h3>
-                <label for="mensaje">Usuarios con el libro:</label>
-                <select name="usuarios" required>
-                    <?php if (!empty($usuarios)): ?>
-                        <?php foreach ($usuarios as $usuario): ?>
-                            <option value="<?php echo htmlspecialchars($usuario['usuario']); ?>">
-                                <?php echo htmlspecialchars($usuario['usuario']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <option value="">No hay usuarios con este libro</option>
-                    <?php endif; ?>
-                </select>
+        <div class="solicitar-container">
+            <h1>Usuarios que poseen el libro "<?php echo htmlspecialchars($nombre); ?>"</h1>
+            <div class="comments-section">
+                <form method="POST" action="" class="solicitar-form">
+                    <h3>Solicitar</h3>
+                    <label for="mensaje">Usuarios con el libro:</label>
+                    <select name="usuarios" required>
+                        <?php if (!empty($usuarios)): ?>
+                            <?php foreach ($usuarios as $usuario): ?>
+                                <option value="<?php echo htmlspecialchars($usuario['usuario']); ?>">
+                                    <?php echo htmlspecialchars($usuario['usuario']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <option value="">No hay usuarios con este libro</option>
+                        <?php endif; ?>
+                    </select>
 
-                <label for="mensaje">Mensaje:</label>
-                <textarea name="mensaje" id="mensaje" rows="4" cols="50" placeholder="Escribe tu mensaje aquí..." required></textarea>
-                <button type="submit" name="accion" value="enviar_solicitud">Enviar Solicitud</button>
-            </form>
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea name="mensaje" id="mensaje" rows="4" cols="50" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                    <button type="submit" name="accion" value="enviar_solicitud">Enviar Solicitud</button>
+                </form>
 
 
-            <style>
-                .solicitar-form {
-                    background-color: #f9f9f9;
-                    padding: 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    margin: 20px auto;
-                }
+                <style>
+                    .solicitar-container {
+                        padding: 4em;
+                        padding-left: 6em;
 
-                .solicitar-form h3 {
-                    margin-bottom: 15px;
-                    font-size: 1.5em;
-                    color: #333;
-                }
+                    }
 
-                .solicitar-form select,
-                .solicitar-form textarea,
-                .solicitar-form button {
-                    width: 100%;
-                    padding: 10px;
-                    margin-bottom: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 4px;
-                }
+                    .solicitar-form {
+                        background-color: #fff;
+                        padding: 20px;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        margin: 20px auto;
+                    }
 
-                .solicitar-form button {
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                }
+                    .solicitar-form h3 {
+                        margin-bottom: 15px;
+                        font-size: 1.5em;
+                        color: #333;
+                    }
 
-                .solicitar-form button:hover {
-                    background-color: #0056b3;
-                }
-            </style>
+                    .solicitar-form select,
+                    .solicitar-form textarea,
+                    .solicitar-form button {
+                        width: 100%;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                    }
+
+                    .solicitar-form button {
+                        background-color: #007bff;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                    }
+
+                    .solicitar-form button:hover {
+                        background-color: #0056b3;
+                    }
+                </style>
+            </div>
         </div>
+
     </main>
 </body>
 
